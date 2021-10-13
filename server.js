@@ -15,7 +15,7 @@ app.use("/api/users", require('./routes/user'))
 connectDB()
 
 //1- run server
-const port = process.envPORT || 5000
+const port = process.envPORT || 7000
 app.listen(port, err => {
     err ? console.log(err)
         : console.log((`the server is running on http://localhost:${port}`))
