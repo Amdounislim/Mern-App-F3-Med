@@ -4,12 +4,13 @@ import { BrowserRouter, Switch, Route, Link } from "react-router-dom"
 import { Button } from "react-bootstrap"
 import UserCard from './components/UserCard';
 import AddUser from './components/AddUser';
-import { useDispatch } from "react-redux"
-import { getUsers } from "./JS/actions/actionUser"
+import { useDispatch, useSelector } from "react-redux"
+import { getUsers, toggleFalse } from "./JS/actions/actionUser"
 
 
 function App() {
   const dispatch = useDispatch()
+  const users = useSelector(state => state.users)
 
   const getAllUsers = () => {
     dispatch(getUsers())
@@ -30,12 +31,14 @@ function App() {
           <Button variant="outline-primary button">Users List</Button>
         </Link>
         <Link to='/Add_user'>
-          <Button variant="primary button">Add User</Button>
+          <Button variant="primary button" onClick={()=>dispatch(toggleFalse())}>Add User</Button>
         </Link>
       </div>
       <Switch>
-        <Route path="/Users_list" render={() => <UserCard />} />
-        <Route path="/Add_user" render={() => <AddUser />} />
+        <Route path="/Users_list" render={() => (<div className="contact-list">
+          {users.map((el, i) => (<UserCard user={el} key={i} />))}
+        </div>)} />
+        <Route path="/(Add_user|Edit_user)/" render={() => <AddUser />} />
       </Switch>
     </BrowserRouter>
   );
